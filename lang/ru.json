@@ -1,0 +1,23 @@
+{
+    "Blog categories": "Категории",
+    "Blog": "Блог",
+    "Category ID": "Категория",
+    "Category": "Категория",
+    "Content": "Полный текст",
+    "Create blog category": "Создать категорию",
+    "Create blog post": "Создать пост",
+    "Creator ID": "ИД Автора",
+    "Description": "Описание",
+    "Image": "Изображение",
+    "Introductory": "Вводный текст",
+    "Keywords": "Ключевые слова",
+    "Name": "Название",
+    "Posts": "Посты",
+    "Published At": "Опубликовано",
+    "Slug": "URL",
+    "Status": "Статус",
+    "Update :name": "Обновить :name",
+    "Updator ID": "ИД обновившего",
+    "category": "категорию",
+    "post": "пост"
+}

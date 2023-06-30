@@ -35,7 +35,9 @@ class CategoryResource extends Resource
         return [
             ID::make()->sortable(),
             
-            Text::make(__('Name'), 'name')->sortable(),
+            Text::make(__('Name'), 'name')
+                ->rules(['required'])
+                ->sortable(),
             
             Slug::make(__('Slug'), 'slug')
                 ->from('name')
@@ -60,12 +62,12 @@ class CategoryResource extends Resource
                 ->indexWidth(60)
                 ->detailWidth(200),
             
-            Hidden::make('Creator ID', 'creator_id')->default(function($request)
+            Hidden::make(__('Creator ID'), 'creator_id')->default(function($request)
             {
                 return $request->user()->id;
             }),
             
-            Hidden::make('Updator ID', 'updator_id')->default(function($request)
+            Hidden::make(__('Updator ID'), 'updator_id')->default(function($request)
             {
                 return $request->user()->id;
             }),
@@ -75,5 +77,20 @@ class CategoryResource extends Resource
     public static function uriKey(): string
     {
         return 'blog-categories';
+    }
+    
+    public static function label(): string
+    {
+        return __('Blog categories');
+    }
+    
+    public static function createButtonLabel(): string
+    {
+        return __('Create blog category');
+    }
+    
+    public static function updateButtonLabel(): string
+    {
+        return __('Update :name', ['name' => __('category')]);
     }
 }

@@ -15,11 +15,13 @@ class NovaBlog extends Tool
     
     public function menu(Request $request): mixed
     {
-        return MenuSection::make(PostResource::label(), [
+        return MenuSection::make(__('Blog'), [
+            MenuItem::make(PostResource::label())
+                ->path('/resources/' . PostResource::uriKey()),
+            
             MenuItem::make(CategoryResource::label())
                 ->path('/resources/' . CategoryResource::uriKey())
         ])
-            ->path('/resources/' . PostResource::uriKey())
             ->icon('newspaper');
     }
 }
