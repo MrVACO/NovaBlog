@@ -7,6 +7,7 @@ use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Tool;
 use MrVaco\NovaBlog\Nova\CategoryResource;
+use MrVaco\NovaBlog\Nova\PostResource;
 
 class NovaBlog extends Tool
 {
@@ -14,11 +15,11 @@ class NovaBlog extends Tool
     
     public function menu(Request $request): mixed
     {
-        return MenuSection::make('Nova Blog', [
+        return MenuSection::make(PostResource::label(), [
             MenuItem::make(CategoryResource::label())
                 ->path('/resources/' . CategoryResource::uriKey())
         ])
-            ->path('/resources/')
+            ->path('/resources/' . PostResource::uriKey())
             ->icon('newspaper');
     }
 }

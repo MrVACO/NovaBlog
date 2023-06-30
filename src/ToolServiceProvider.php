@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 use MrVaco\NovaBlog\Nova\CategoryResource;
+use MrVaco\NovaBlog\Nova\PostResource;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,8 @@ class ToolServiceProvider extends ServiceProvider
     public function register(): void
     {
         Nova::resources([
-            CategoryResource::class
+            CategoryResource::class,
+            PostResource::class
         ]);
     }
 }
