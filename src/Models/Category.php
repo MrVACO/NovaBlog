@@ -4,7 +4,6 @@ namespace MrVaco\NovaBlog\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
 
 class Category extends Model
@@ -25,9 +24,8 @@ class Category extends Model
         'creator_id' => 'integer',
     ];
     
-    public function scopeActiveList(Builder $query): Collection
+    public function scopeActiveList(Builder $query): Builder
     {
-        return $query->where('status', StatusClass::ACTIVE()->id)
-            ->pluck('name', 'id');
+        return $query->where('status', StatusClass::ACTIVE()->id);
     }
 }

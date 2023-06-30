@@ -70,7 +70,7 @@ class PostResource extends Resource
     {
         return [
             Select::make(__('Category Id'), 'category_id')
-                ->options(Category::activeList())
+                ->options(Category::activeList()->pluck('name', 'id'))
                 ->rules(['required']),
             
             Text::make(__('Name'), 'name')->sortable(),
@@ -122,7 +122,7 @@ class PostResource extends Resource
     {
         return [
             Select::make(__('Category Id'), 'category_id')
-                ->options(Category::activeList())
+                ->options(Category::activeList()->pluck('name', 'id'))
                 ->rules(['required']),
             
             Text::make(__('Name'), 'name')->sortable(),
