@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
@@ -62,6 +63,11 @@ class PostResource extends Resource
                 ->default(StatusClass::ACTIVE()->id)
                 ->sortable(),
             
+            Image::make(__('Image'), 'image')
+                ->disk('public')
+                ->indexWidth(60)
+                ->detailWidth(200),
+            
             Date::make('Published At')->nullable(),
         ];
     }
@@ -105,6 +111,11 @@ class PostResource extends Resource
                 ->sortable(),
             
             DateTime::make('Published At')->nullable(),
+            
+            Image::make(__('Image'), 'image')
+                ->disk('public')
+                ->indexWidth(60)
+                ->detailWidth(200),
             
             Hidden::make('Creator ID', 'creator_id')->default(function($request)
             {
@@ -157,6 +168,11 @@ class PostResource extends Resource
                 ->sortable(),
             
             DateTime::make('Published At')->nullable(),
+            
+            Image::make(__('Image'), 'image')
+                ->disk('public')
+                ->indexWidth(60)
+                ->detailWidth(200),
             
             Hidden::make('Updator ID', 'updator_id')->default(function($request)
             {

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->longText('content');
             $table->string('slug');
             $table->integer('status')->default(StatusClass::DRAFT()->id);
+            $table->string('image')->nullable();
             $table->integer('creator_id');
             $table->integer('updator_id');
             $table->timestamp('published_at')->nullable();

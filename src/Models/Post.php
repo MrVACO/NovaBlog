@@ -18,6 +18,7 @@ class Post extends Model
         'content',
         'slug',
         'status',
+        'image',
         'creator_id',
         'updator_id',
         'published_at',
