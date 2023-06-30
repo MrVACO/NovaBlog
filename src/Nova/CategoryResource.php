@@ -4,12 +4,16 @@ declare(strict_types = 1);
 
 namespace MrVaco\NovaBlog\Nova;
 
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 use MrVaco\NovaBlog\Models\Category;
+use MrVaco\NovaStatusesManager\Classes\StatusClass;
+use MrVaco\NovaStatusesManager\Fields\Status;
 
 class CategoryResource extends Resource
 {
@@ -28,15 +32,36 @@ class CategoryResource extends Resource
     public function fields(NovaRequest $request): array
     {
         return [
-            ID::make(),
+            ID::make()->sortable(),
             
-            Text::make(__('Name'), 'name'),
+            Text::make(__('Name'), 'name')->sortable(),
             
             Slug::make(__('Slug'), 'slug')
                 ->from('name')
-                ->rules('required'),
+                ->rules('required')
+                ->sortable(),
             
-            Text::make(__('Description'), 'description'),
+            Text::make(__('Keywords'), 'keywords')->sortable(),
+            
+            Textarea::make(__('Description'), 'description')
+                ->rows(2)
+                ->sortable(),
+            
+            Status::make(__('Status'), 'status')
+                ->rules('required')
+                ->options(StatusClass::LIST('full'))
+                ->default(StatusClass::ACTIVE()->id)
+                ->sortable(),
+            
+            Hidden::make('Creator ID', 'creator_id')->default(function($request)
+            {
+                return $request->user()->id;
+            }),
         ];
+    }
+    
+    public static function uriKey(): string
+    {
+        return 'blog-categories';
     }
 }
