@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('keywords')->nullable();
             $table->text('description')->nullable();
             $table->integer('status')->default(StatusClass::DRAFT()->id);
+            $table->string('image')->nullable();
             $table->integer('creator_id');
             
             $table->timestamps();

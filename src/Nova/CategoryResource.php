@@ -6,6 +6,7 @@ namespace MrVaco\NovaBlog\Nova;
 
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -52,6 +53,11 @@ class CategoryResource extends Resource
                 ->options(StatusClass::LIST('full'))
                 ->default(StatusClass::ACTIVE()->id)
                 ->sortable(),
+            
+            Image::make(__('Image'), 'image')
+                ->disk('public')
+                ->indexWidth(60)
+                ->detailWidth(200),
             
             Hidden::make('Creator ID', 'creator_id')->default(function($request)
             {

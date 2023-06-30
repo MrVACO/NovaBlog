@@ -16,6 +16,7 @@ class Category extends Model
         'keywords',
         'description',
         'status',
+        'image',
         'creator_id',
     ];
     
