@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace MrVaco\NovaBlog\Nova;
 
+use Carbon\Carbon;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
@@ -114,8 +115,9 @@ class PostResource extends Resource
             
             Image::make(__('Image'), 'image')
                 ->disk('public')
-                ->indexWidth(60)
-                ->detailWidth(200),
+                ->path(
+                    sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
+                ),
             
             Hidden::make('Creator ID', 'creator_id')->default(function($request)
             {
@@ -171,8 +173,9 @@ class PostResource extends Resource
             
             Image::make(__('Image'), 'image')
                 ->disk('public')
-                ->indexWidth(60)
-                ->detailWidth(200),
+                ->path(
+                    sprintf('/blog/posts/%s', Carbon::now()->format("Y-m-d"))
+                ),
             
             Hidden::make('Updator ID', 'updator_id')->default(function($request)
             {

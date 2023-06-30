@@ -56,6 +56,7 @@ class CategoryResource extends Resource
             
             Image::make(__('Image'), 'image')
                 ->disk('public')
+                ->path('/blog/categories')
                 ->indexWidth(60)
                 ->detailWidth(200),
             
