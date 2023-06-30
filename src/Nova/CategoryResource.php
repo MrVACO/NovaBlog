@@ -64,6 +64,11 @@ class CategoryResource extends Resource
             {
                 return $request->user()->id;
             }),
+            
+            Hidden::make('Updator ID', 'updator_id')->default(function($request)
+            {
+                return $request->user()->id;
+            }),
         ];
     }
     

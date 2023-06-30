@@ -21,7 +21,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('status')->default(StatusClass::DRAFT()->id);
             $table->string('image')->nullable();
-            $table->integer('creator_id');
+            $table->integer('creator_id')->unsigned();
+            $table->integer('updator_id')->unsigned();
             
             $table->timestamps();
         });

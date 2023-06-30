@@ -15,16 +15,19 @@ class BlogCategorySeeder extends Seeder
             'name'       => 'Uncategorized',
             'slug'       => 'uncategorized',
             'creator_id' => 1,
+            'updator_id' => 1,
         ],
         [
             'name'       => 'News',
             'slug'       => 'news',
             'creator_id' => 1,
+            'updator_id' => 1,
         ],
         [
             'name'       => 'Articles',
             'slug'       => 'articles',
             'creator_id' => 1,
+            'updator_id' => 1,
         ],
     ];
     

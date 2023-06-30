@@ -18,11 +18,13 @@ class Category extends Model
         'status',
         'image',
         'creator_id',
+        'updator_id',
     ];
     
     protected $casts = [
         'status'     => 'integer',
         'creator_id' => 'integer',
+        'updator_id' => 'integer',
     ];
     
     public function scopeActiveList(Builder $query): Builder
