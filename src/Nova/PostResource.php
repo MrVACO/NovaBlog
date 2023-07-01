@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace MrVaco\NovaBlog\Nova;
 
 use Carbon\Carbon;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
@@ -34,44 +33,12 @@ class PostResource extends Resource
     public static $title = 'name';
     
     public static $search = [
-        'name', 'slug', 'title'
+        'name', 'slug', 'title', 'keywords'
     ];
     
     public function fields(NovaRequest $request): array
     {
-        return [
-            ID::make()->sortable(),
-            
-            Text::make(__('Category'), 'category->name')->sortable(),
-            
-            Text::make(__('Name'), 'name')->sortable(),
-            
-            Slug::make(__('Slug'), 'slug')
-                ->from('name')
-                ->rules('required')
-                ->sortable(),
-            
-            Text::make(__('Title'), 'title')
-                ->dependsOn(['name'],
-                    function(Text $field, NovaRequest $request, FormData $formData)
-                    {
-                        $field->value = $formData->name;
-                    }
-                ),
-            
-            Status::make(__('Status'), 'status')
-                ->rules('required')
-                ->options(StatusClass::LIST('short'))
-                ->default(StatusClass::ACTIVE()->id)
-                ->sortable(),
-            
-            Image::make(__('Image'), 'image')
-                ->disk('public')
-                ->indexWidth(60)
-                ->detailWidth(200),
-            
-            Date::make(__('Published At'), 'published_at')->nullable(),
-        ];
+        return $this->fieldsArray($request);
     }
     
     public function fieldsForCreate(NovaRequest $request): array
@@ -79,60 +46,14 @@ class PostResource extends Resource
         return [
             Panel::make(__('Create :resource', [
                 'resource' => __('post'),
-            ]), [
-                Select::make(__('Category ID'), 'category_id')
-                    ->options(Category::activeList()->pluck('name', 'id'))
-                    ->rules(['required']),
-                
-                Text::make(__('Name'), 'name')->sortable(),
-                
-                Slug::make(__('Slug'), 'slug')
-                    ->from('name')
-                    ->rules('required')
-                    ->sortable(),
-                
-                Text::make(__('Title'), 'title')
-                    ->dependsOn(['name'],
-                        function(Text $field, NovaRequest $request, FormData $formData)
-                        {
-                            $field->value = $formData->name;
-                        }
-                    ),
-                
-                Text::make(__('Keywords'), 'keywords')->sortable(),
-                
-                Textarea::make(__('Introductory'), 'introductory')
-                    ->rows(2)
-                    ->sortable(),
-                
-                Textarea::make(__('Content'), 'content')
-                    ->rows(5)
-                    ->sortable(),
-                
-                Status::make(__('Status'), 'status')
-                    ->rules('required')
-                    ->options(StatusClass::LIST('short'))
-                    ->default(StatusClass::ACTIVE()->id)
-                    ->sortable(),
-                
-                DateTime::make(__('Published At'), 'published_at')->nullable(),
-                
-                Image::make(__('Image'), 'image')
-                    ->disk('public')
-                    ->path(
-                        sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
-                    ),
-                
-                Hidden::make(__('Creator ID'), 'creator_id')->default(function($request)
-                {
-                    return $request->user()->id;
-                }),
-                
-                Hidden::make(__('Updator ID'), 'updator_id')->default(function($request)
-                {
-                    return $request->user()->id;
-                }),
             ]),
+                array_merge($this->fieldsArray($request), [
+                    Hidden::make(__('Creator ID'), 'creator_id')->default(function($request)
+                    {
+                        return $request->user()->id;
+                    }),
+                ])
+            ),
         ];
     }
     
@@ -142,55 +63,77 @@ class PostResource extends Resource
             Panel::make(__('Update :resource: :title', [
                 'resource' => '',
                 'title'    => $this->title()
-            ]), [
-                Select::make(__('Category ID'), 'category_id')
-                    ->options(Category::activeList()->pluck('name', 'id'))
-                    ->rules(['required']),
-                
-                Text::make(__('Name'), 'name')->sortable(),
-                
-                Slug::make(__('Slug'), 'slug')
-                    ->from('name')
-                    ->rules('required')
-                    ->sortable(),
-                
-                Text::make(__('Title'), 'title')
-                    ->dependsOn(['name'],
-                        function(Text $field, NovaRequest $request, FormData $formData)
-                        {
-                            $field->value = $formData->name;
-                        }
-                    ),
-                
-                Text::make(__('Keywords'), 'keywords')->sortable(),
-                
-                Textarea::make(__('Introductory'), 'introductory')
-                    ->rows(2)
-                    ->sortable(),
-                
-                Textarea::make(__('Content'), 'content')
-                    ->rows(5)
-                    ->sortable(),
-                
-                Status::make(__('Status'), 'status')
-                    ->rules('required')
-                    ->options(StatusClass::LIST('short'))
-                    ->default(StatusClass::ACTIVE()->id)
-                    ->sortable(),
-                
-                DateTime::make(__('Published At'), 'published_at')->nullable(),
-                
-                Image::make(__('Image'), 'image')
-                    ->disk('public')
-                    ->path(
-                        sprintf('/blog/posts/%s', Carbon::now()->format("Y-m-d"))
-                    ),
-                
-                Hidden::make(__('Updator ID'), 'updator_id')->default(function($request)
-                {
-                    return $request->user()->id;
-                }),
-            ])
+            ]), $this->fieldsArray($request))
+        ];
+    }
+    
+    protected function fieldsArray(NovaRequest $request): array
+    {
+        return [
+            ID::make()->sortable(),
+            
+            Select::make(__('Category ID'), 'category_id')
+                ->options(Category::activeList()->pluck('name', 'id'))
+                ->rules(['required'])
+                ->hideFromIndex()
+                ->hideFromDetail(),
+            
+            Text::make(__('Category'), 'category->name')
+                ->sortable()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+            
+            Text::make(__('Name'), 'name')->sortable(),
+            
+            Slug::make(__('Slug'), 'slug')
+                ->from('name')
+                ->rules(['required'])
+                ->sortable()
+                ->hideFromIndex(),
+            
+            Text::make(__('Title'), 'title')
+                ->dependsOn(['name'],
+                    function(Text $field, NovaRequest $request, FormData $formData)
+                    {
+                        $field->value = $formData->name;
+                    }
+                )
+                ->rules(['required'])
+                ->sortable(),
+            
+            Text::make(__('Keywords'), 'keywords')
+                ->hideFromIndex(),
+            
+            Textarea::make(__('Introductory'), 'introductory')
+                ->rows(2)
+                ->rules(['required'])
+                ->sortable(),
+            
+            Textarea::make(__('Content'), 'content')
+                ->rows(5)
+                ->rules(['required'])
+                ->sortable(),
+            
+            Status::make(__('Status'), 'status')
+                ->rules(['required'])
+                ->options(StatusClass::LIST('short'))
+                ->default(StatusClass::ACTIVE()->id)
+                ->sortable(),
+            
+            DateTime::make(__('Published At'), 'published_at')
+                ->nullable()
+                ->step(60),
+            
+            Image::make(__('Image'), 'image')
+                ->disk('public')
+                ->path(
+                    sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
+                ),
+            
+            Hidden::make(__('Updator ID'), 'updator_id')->default(function($request)
+            {
+                return $request->user()->id;
+            }),
         ];
     }
     
