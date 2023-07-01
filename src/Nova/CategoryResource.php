@@ -44,7 +44,9 @@ class CategoryResource extends Resource
                 ->rules('required')
                 ->sortable(),
             
-            Text::make(__('Keywords'), 'keywords')->sortable(),
+            Text::make(__('Keywords'), 'keywords')
+                ->hideFromIndex()
+                ->sortable(),
             
             Textarea::make(__('Description'), 'description')
                 ->rows(2)
