@@ -6,8 +6,12 @@ use Illuminate\Support\ServiceProvider;
 use Lang;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
+use MrVaco\NovaBlog\Models\Category;
+use MrVaco\NovaBlog\Models\Post;
 use MrVaco\NovaBlog\Nova\CategoryResource;
 use MrVaco\NovaBlog\Nova\PostResource;
+use MrVaco\NovaBlog\Observer\CategoryObserver;
+use MrVaco\NovaBlog\Observer\PostObserver;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,9 @@ class ToolServiceProvider extends ServiceProvider
             Nova::tools([
                 new NovaBlog
             ]);
+            
+            Category::observe(CategoryObserver::class);
+            Post::observe(PostObserver::class);
         });
     }
     
