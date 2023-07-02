@@ -32,6 +32,22 @@ class CategoryResource extends Resource
     
     public function fields(NovaRequest $request): array
     {
+        return $this->fieldsArray();
+    }
+    
+    public function fieldsForCreate(NovaRequest $request): array
+    {
+        return array_merge($this->fieldsArray(), [
+            Hidden::make(__('Creator ID'), 'creator_id')
+                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                {
+                    $model->{$attribute} = auth()->user()->id;
+                }),
+        ]);
+    }
+    
+    protected function fieldsArray(): array
+    {
         return [
             ID::make()->sortable(),
             
@@ -64,15 +80,11 @@ class CategoryResource extends Resource
                 ->indexWidth(60)
                 ->detailWidth(200),
             
-            Hidden::make(__('Creator ID'), 'creator_id')->default(function($request)
-            {
-                return $request->user()->id;
-            }),
-            
-            Hidden::make(__('Updator ID'), 'updator_id')->default(function($request)
-            {
-                return $request->user()->id;
-            }),
+            Hidden::make(__('Updator ID'), 'updator_id')
+                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                {
+                    $model->{$attribute} = auth()->user()->id;
+                }),
         ];
     }
     

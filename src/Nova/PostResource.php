@@ -48,10 +48,11 @@ class PostResource extends Resource
                 'resource' => __('post'),
             ]),
                 array_merge($this->fieldsArray($request), [
-                    Hidden::make(__('Creator ID'), 'creator_id')->default(function($request)
-                    {
-                        return $request->user()->id;
-                    }),
+                    Hidden::make(__('Creator ID'), 'creator_id')
+                        ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                        {
+                            $model->{$attribute} = auth()->user()->id;
+                        }),
                 ])
             ),
         ];
@@ -130,10 +131,11 @@ class PostResource extends Resource
                     sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
                 ),
             
-            Hidden::make(__('Updator ID'), 'updator_id')->default(function($request)
-            {
-                return $request->user()->id;
-            }),
+            Hidden::make(__('Updator ID'), 'updator_id')
+                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                {
+                    $model->{$attribute} = auth()->user()->id;
+                }),
         ];
     }
     
