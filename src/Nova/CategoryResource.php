@@ -7,6 +7,7 @@ namespace MrVaco\NovaBlog\Nova;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -79,6 +80,12 @@ class CategoryResource extends Resource
                 ->path('/blog/categories')
                 ->indexWidth(60)
                 ->detailWidth(200),
+            
+            Number::make(__('Clicks'), 'statistic->clicks')
+                ->textAlign('center')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->nullable(),
             
             Hidden::make(__('Updator ID'), 'updator_id')
                 ->fillUsing(function($request, $model, $attribute, $requestAttribute)

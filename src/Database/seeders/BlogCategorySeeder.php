@@ -35,9 +35,11 @@ class BlogCategorySeeder extends Seeder
     {
         foreach ($this->categories as $item)
         {
-            Category::query()->create(array_merge($item, [
+            $category = Category::query()->create(array_merge($item, [
                 'status' => StatusClass::ACTIVE()->id,
             ]));
+            
+            $category->statistic()->create();
         }
     }
 }

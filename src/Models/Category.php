@@ -4,6 +4,7 @@ namespace MrVaco\NovaBlog\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
 
 class Category extends Model
@@ -30,5 +31,10 @@ class Category extends Model
     public function scopeActiveList(Builder $query): Builder
     {
         return $query->where('status', StatusClass::ACTIVE()->id);
+    }
+    
+    public function statistic(): HasOne
+    {
+        return $this->hasOne(CategoryStatistic::class, 'category_id');
     }
 }
