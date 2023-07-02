@@ -14,6 +14,7 @@ return new class extends Migration
         {
             $table->integer('post_id')->unsigned()->index()->primary();
             $table->integer('clicks')->unsigned()->default(0); // кол-во кликов
+            $table->integer('views')->unsigned()->default(0);  // кол-во просмотров
         });
     }
     

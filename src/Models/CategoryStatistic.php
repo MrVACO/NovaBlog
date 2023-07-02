@@ -17,12 +17,14 @@ class CategoryStatistic extends Model
     
     protected $fillable = [
         'category_id',
-        'clicks'
+        'clicks',
+        'views',
     ];
     
     protected $casts = [
         'category_id' => 'integer',
         'clicks'      => 'integer',
+        'views'       => 'integer',
     ];
     
     public function category(): BelongsTo

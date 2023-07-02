@@ -17,12 +17,14 @@ class PostStatistic extends Model
     
     protected $fillable = [
         'post_id',
-        'clicks'
+        'clicks',
+        'views',
     ];
     
     protected $casts = [
         'post_id' => 'integer',
         'clicks'  => 'integer',
+        'views'   => 'integer',
     ];
     
     public function post(): BelongsTo
