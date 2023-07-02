@@ -86,12 +86,14 @@ class PostResource extends Resource
                 ->hideWhenUpdating(),
             
             Text::make(__('Name'), 'name')
-                ->rules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
+                ->creationRules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
+                ->updateRules(['required', 'min:3', 'max:255'])
                 ->sortable(),
             
             Slug::make(__('Slug'), 'slug')
                 ->from('name')
-                ->rules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
+                ->creationRules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
+                ->updateRules(['required', 'min:3', 'max:255'])
                 ->sortable()
                 ->hideFromIndex(),
             
@@ -102,7 +104,8 @@ class PostResource extends Resource
                         $field->value = $formData->name;
                     }
                 )
-                ->rules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
+                ->creationRules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
+                ->updateRules(['required', 'min:3', 'max:255'])
                 ->sortable(),
             
             Text::make(__('Keywords'), 'keywords')
