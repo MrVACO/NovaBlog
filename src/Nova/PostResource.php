@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
@@ -130,6 +131,12 @@ class PostResource extends Resource
                 ->path(
                     sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
                 ),
+            
+            Number::make(__('Clicks'), 'statistic->clicks')
+                ->textAlign('center')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->nullable(),
             
             Hidden::make(__('Updator ID'), 'updator_id')
                 ->fillUsing(function($request, $model, $attribute, $requestAttribute)
