@@ -15,8 +15,8 @@ return new class extends Migration
         {
             $table->id();
             
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->string('keywords')->nullable();
             $table->text('description')->nullable();
             $table->integer('status')->default(StatusClass::DRAFT()->id);

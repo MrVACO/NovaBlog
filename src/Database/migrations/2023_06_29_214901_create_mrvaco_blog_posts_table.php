@@ -16,12 +16,12 @@ return new class extends Migration
             $table->id();
             
             $table->integer('category_id')->default(1);
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('keywords')->nullable();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->text('introductory');
             $table->longText('content');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->integer('status')->default(StatusClass::DRAFT()->id);
             $table->string('image')->nullable();
             $table->integer('creator_id')->unsigned();
