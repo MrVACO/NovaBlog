@@ -2,6 +2,7 @@
 
 namespace MrVaco\NovaBlog\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -36,5 +37,15 @@ class Category extends Model
     public function statistic(): HasOne
     {
         return $this->hasOne(CategoryStatistic::class, 'category_id');
+    }
+    
+    public function creator(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'creator_id');
+    }
+    
+    public function updator(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'updator_id');
     }
 }
