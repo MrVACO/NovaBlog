@@ -26,6 +26,8 @@ class PostResource extends JsonResource
             'created_at'   => $this->created_at,
             
             'category' => new CategoryResource($this->whenLoaded('category')),
+            
+            'statistics' => StatisticsResource::make($this->statistic)
         ];
     }
 }

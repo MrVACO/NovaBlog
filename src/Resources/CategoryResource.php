@@ -21,6 +21,8 @@ class CategoryResource extends JsonResource
             'creator'     => $this->creator?->name,
             'updator'     => $this->updator?->name,
             'created_at'  => $this->created_at,
+            
+            'statistics' => StatisticsResource::make($this->statistic)
         ];
     }
 }
