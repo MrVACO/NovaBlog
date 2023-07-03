@@ -22,7 +22,9 @@ class CategoryResource extends JsonResource
             'updator'     => $this->updator?->name,
             'created_at'  => $this->created_at,
             
-            'statistics' => StatisticsResource::make($this->statistic)
+            'statistics' => StatisticsResource::make($this->statistic),
+            
+            'posts' => PostResource::collection($this->whenLoaded('posts')) ?? null,
         ];
     }
 }
