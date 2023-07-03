@@ -20,6 +20,8 @@ class ToolServiceProvider extends ServiceProvider
         $this->app->booted(function()
         {
             Lang::addJsonPath(__DIR__ . '/../lang');
+            
+            $this->routes();
         });
         
         Nova::serving(function(ServingNova $event)
@@ -39,5 +41,18 @@ class ToolServiceProvider extends ServiceProvider
             CategoryResource::class,
             PostResource::class
         ]);
+    }
+    
+    protected function routes(): void
+    {
+        if ($this->app->routesAreCached())
+        {
+            return;
+        }
+        
+        app('router')
+            ->middleware('api')
+            ->prefix('api/blog')
+            ->group(__DIR__ . '/../routes/api.php');
     }
 }
