@@ -129,7 +129,12 @@ class PostResource extends Resource
             
             DateTime::make(__('Published At'), 'published_at')
                 ->nullable()
-                ->step(60),
+                ->step(60)
+                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                {
+                    if ($request->{$attribute} == null)
+                        $model->{$attribute} = Carbon::now();
+                }),
             
             Image::make(__('Image'), 'image')
                 ->disk('public')
