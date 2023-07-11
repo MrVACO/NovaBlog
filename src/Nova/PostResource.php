@@ -6,7 +6,6 @@ namespace MrVaco\NovaBlog\Nova;
 
 use Carbon\Carbon;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
@@ -39,12 +38,12 @@ class PostResource extends Resource
     
     public function fields(NovaRequest $request): array
     {
-        return $this->fieldsArray($request);
+        return array_merge($this->fieldsArray($request), $this->secondaryPanel($request));
     }
     
     public function fieldsForCreate(NovaRequest $request): array
     {
-        return [
+        return array_merge([
             Panel::make(__('Create :resource', [
                 'resource' => __('post'),
             ]),
@@ -55,18 +54,18 @@ class PostResource extends Resource
                             $model->{$attribute} = auth()->user()->id;
                         }),
                 ])
-            ),
-        ];
+            )
+        ], $this->secondaryPanel($request));
     }
     
     public function fieldsForUpdate(NovaRequest $request): array
     {
-        return [
+        return array_merge([
             Panel::make(__('Update :resource: :title', [
                 'resource' => '',
                 'title'    => $this->title()
             ]), $this->fieldsArray($request))
-        ];
+        ], $this->secondaryPanel($request));
     }
     
     protected function fieldsArray(NovaRequest $request): array
@@ -74,39 +73,22 @@ class PostResource extends Resource
         return [
             ID::make()->sortable(),
             
-            Select::make(__('Category ID'), 'category_id')
-                ->options(Category::activeList()->pluck('name', 'id'))
-                ->rules(['required'])
-                ->hideFromIndex()
-                ->hideFromDetail(),
-            
             Text::make(__('Category'), 'category->name')
                 ->sortable()
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
             
-            Text::make(__('Name'), 'name')
+            Text::make(__('Title'), 'title')
                 ->creationRules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
                 ->updateRules(['required', 'min:3', 'max:255'])
                 ->sortable(),
             
             Slug::make(__('Slug'), 'slug')
-                ->from('name')
+                ->from('title')
                 ->creationRules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
                 ->updateRules(['required', 'min:3', 'max:255'])
                 ->sortable()
                 ->hideFromIndex(),
-            
-            Text::make(__('Title'), 'title')
-                ->dependsOn(['name'],
-                    function(Text $field, NovaRequest $request, FormData $formData)
-                    {
-                        $field->value = $formData->name;
-                    }
-                )
-                ->creationRules(['required', 'unique:mrvaco_blog_posts', 'min:3', 'max:255'])
-                ->updateRules(['required', 'min:3', 'max:255'])
-                ->sortable(),
             
             Text::make(__('Keywords'), 'keywords')
                 ->hideFromIndex(),
@@ -120,27 +102,6 @@ class PostResource extends Resource
                 ->rows(5)
                 ->rules(['required'])
                 ->sortable(),
-            
-            Status::make(__('Status'), 'status')
-                ->rules(['required'])
-                ->options(StatusClass::LIST('short'))
-                ->default(StatusClass::ACTIVE()->id)
-                ->sortable(),
-            
-            DateTime::make(__('Published At'), 'published_at')
-                ->nullable()
-                ->step(60)
-                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
-                {
-                    if ($request->{$attribute} == null)
-                        $model->{$attribute} = Carbon::now();
-                }),
-            
-            Image::make(__('Image'), 'image')
-                ->disk('public')
-                ->path(
-                    sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
-                ),
             
             Number::make(__('Clicks'), 'statistic->clicks')
                 ->textAlign('center')
@@ -159,6 +120,48 @@ class PostResource extends Resource
                 {
                     $model->{$attribute} = auth()->user()->id;
                 }),
+        ];
+    }
+    
+    protected function secondaryPanel(NovaRequest $request): array
+    {
+        return [
+            Panel::make('secondary', [
+                Select::make(__('Category ID'), 'category_id')
+                    ->options(Category::activeList()->pluck('name', 'id'))
+                    ->rules(['required'])
+                    ->hideFromIndex()
+                    ->hideFromDetail()
+                    ->fullWidth(),
+                
+                Status::make(__('Status'), 'status')
+                    ->rules(['required'])
+                    ->options(StatusClass::LIST('short'))
+                    ->default(StatusClass::ACTIVE()->id)
+                    ->sortable()
+                    ->fullWidth(),
+                
+                DateTime::make(__('Published At'), 'published_at')
+                    ->nullable()
+                    ->step(60)
+                    ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                    {
+                        if ($request->{$attribute} == null)
+                            $model->{$attribute} = Carbon::now();
+                    })
+                    ->displayUsing(function($request, $model, $attribute)
+                    {
+                        return Carbon::parse($model->{$attribute})->format('d-m-Y');
+                    })
+                    ->fullWidth(),
+                
+                Image::make(__('Image'), 'image')
+                    ->disk('public')
+                    ->path(
+                        sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
+                    )
+                    ->fullWidth(),
+            ])
         ];
     }
     
