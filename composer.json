@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "mr-vaco/nova-panels": "^1.*",
+        "mr-vaco/nova-panels": "^1.0",
         "mr-vaco/nova-statuses-manager": "^0.1"
     },
     "autoload": {
