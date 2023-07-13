@@ -19,6 +19,7 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
 use MrVaco\NovaBlog\Models\Category;
 use MrVaco\NovaBlog\Models\Post;
+use MrVaco\NovaGallery\Models\Gallery;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
 use MrVaco\NovaStatusesManager\Fields\Status;
 
@@ -132,6 +133,15 @@ class PostResource extends Resource
                     ->rules(['required'])
                     ->hideFromIndex()
                     ->hideFromDetail()
+                    ->fullWidth(),
+                
+                Select::make(__('Gallery'), 'gallery_id')
+                    ->options(Gallery::query()->pluck('name', 'id'))
+                    ->displayUsing(function($request, $model, $attribute)
+                    {
+                        return $model->gallery?->name;
+                    })
+                    ->nullable()
                     ->fullWidth(),
                 
                 Status::make(__('Status'), 'status')

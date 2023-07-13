@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use MrVaco\NovaGallery\Models\Gallery;
 
 class Post extends Model
 {
@@ -23,6 +24,7 @@ class Post extends Model
         'creator_id',
         'updator_id',
         'published_at',
+        'gallery_id',
     ];
     
     protected $casts = [
@@ -31,6 +33,7 @@ class Post extends Model
         'creator_id'   => 'integer',
         'updator_id'   => 'integer',
         'published_at' => 'datetime',
+        'gallery_id'   => 'integer',
     ];
     
     public function category(): BelongsTo
@@ -51,5 +54,10 @@ class Post extends Model
     public function updator(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'updator_id');
+    }
+    
+    public function gallery(): HasOne
+    {
+        return $this->hasOne(Gallery::class, 'id', 'gallery_id');
     }
 }

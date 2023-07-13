@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('creator_id')->unsigned();
             $table->integer('updator_id')->unsigned();
             $table->timestamp('published_at')->nullable();
+            $table->integer('gallery_id')->nullable()->unsigned();
             
             $table->timestamps();
         });

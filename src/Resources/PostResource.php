@@ -6,6 +6,7 @@ namespace MrVaco\NovaBlog\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use MrVaco\NovaGallery\Resources\GalleryResource;
 
 /** @mixin \MrVaco\NovaBlog\Models\Post */
 class PostResource extends JsonResource
@@ -22,11 +23,9 @@ class PostResource extends JsonResource
             'creator'      => $this->creator?->name,
             'updator'      => $this->updator?->name,
             'published_at' => $this->published_at,
-            'created_at'   => $this->created_at,
-            
-            'category' => new CategoryResource($this->whenLoaded('category')),
-            
-            'statistics' => StatisticsResource::make($this->statistic)
+            'gallery'      => GalleryResource::make($this->gallery) ?? null,
+            'category'     => CategoryResource::make($this->whenLoaded('category')),
+            'statistics'   => StatisticsResource::make($this->statistic),
         ];
     }
 }
