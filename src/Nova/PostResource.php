@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
@@ -99,8 +100,8 @@ class PostResource extends Resource
                 ->rules(['required'])
                 ->sortable(),
             
-            Textarea::make(__('Content'), 'content')
-                ->rows(5)
+            Trix::make(__('Content'), 'content')
+                ->withFiles('public')
                 ->rules(['required'])
                 ->sortable(),
             
