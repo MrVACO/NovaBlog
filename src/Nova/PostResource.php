@@ -40,12 +40,12 @@ class PostResource extends Resource
     
     public function fields(NovaRequest $request): array
     {
-        return array_merge($this->fieldsArray($request), $this->secondaryPanel($request));
+        return $this->fieldsArray($request);
     }
     
     public function fieldsForCreate(NovaRequest $request): array
     {
-        return array_merge([
+        return [
             Panel::make(__('Create :resource', [
                 'resource' => __('post'),
             ]),
@@ -57,17 +57,17 @@ class PostResource extends Resource
                         }),
                 ])
             )
-        ], $this->secondaryPanel($request));
+        ];
     }
     
     public function fieldsForUpdate(NovaRequest $request): array
     {
-        return array_merge([
+        return [
             Panel::make(__('Update :resource: :title', [
                 'resource' => '',
                 'title'    => $this->title()
             ]), $this->fieldsArray($request))
-        ], $this->secondaryPanel($request));
+        ];
     }
     
     protected function fieldsArray(NovaRequest $request): array
@@ -122,57 +122,56 @@ class PostResource extends Resource
                 {
                     $model->{$attribute} = auth()->user()->id;
                 }),
-        ];
-    }
-    
-    protected function secondaryPanel(NovaRequest $request): array
-    {
-        return [
-            Panel::make('secondary', [
-                Select::make(__('Category ID'), 'category_id')
-                    ->options(Category::activeList()->pluck('name', 'id'))
-                    ->rules(['required'])
-                    ->hideFromIndex()
-                    ->hideFromDetail()
-                    ->fullWidth(),
-                
-                Select::make(__('Gallery'), 'gallery_id')
-                    ->options(Gallery::query()->pluck('name', 'id'))
-                    ->displayUsing(function($request, $model, $attribute)
-                    {
-                        return $model->gallery?->name;
-                    })
-                    ->nullable()
-                    ->fullWidth(),
-                
-                Status::make(__('Status'), 'status')
-                    ->rules(['required'])
-                    ->options(StatusClass::LIST('short'))
-                    ->default(StatusClass::ACTIVE()->id)
-                    ->sortable()
-                    ->fullWidth(),
-                
-                DateTime::make(__('Published At'), 'published_at')
-                    ->nullable()
-                    ->step(60)
-                    ->fillUsing(function($request, $model, $attribute, $requestAttribute)
-                    {
-                        if ($request->{$attribute} == null)
-                            $model->{$attribute} = Carbon::now();
-                    })
-                    ->displayUsing(function($request, $model, $attribute)
-                    {
-                        return Carbon::parse($model->{$attribute})->format('d-m-Y');
-                    })
-                    ->fullWidth(),
-                
-                Image::make(__('Image'), 'image')
-                    ->disk('public')
-                    ->path(
-                        sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
-                    )
-                    ->fullWidth(),
-            ])
+            
+            Select::make(__('Category ID'), 'category_id')
+                ->options(Category::activeList()->pluck('name', 'id'))
+                ->rules(['required'])
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->fullWidth()
+                ->col()
+                ->forSecondary(),
+            
+            Status::make(__('Status'), 'status')
+                ->rules(['required'])
+                ->options(StatusClass::LIST('short'))
+                ->default(StatusClass::ACTIVE()->id)
+                ->sortable()
+                ->col()
+                ->forSecondary(),
+            
+            Select::make(__('Gallery'), 'gallery_id')
+                ->options(Gallery::query()->pluck('name', 'id'))
+                ->displayUsing(function($request, $model, $attribute)
+                {
+                    return $model->gallery?->name;
+                })
+                ->nullable()
+                ->col()
+                ->forSecondary(),
+            
+            DateTime::make(__('Published At'), 'published_at')
+                ->nullable()
+                ->step(60)
+                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                {
+                    if ($request->{$attribute} == null)
+                        $model->{$attribute} = Carbon::now();
+                })
+                ->displayUsing(function($request, $model, $attribute)
+                {
+                    return Carbon::parse($model->{$attribute})->format('d-m-Y');
+                })
+                ->col()
+                ->forSecondary(),
+            
+            Image::make(__('Image'), 'image')
+                ->disk('public')
+                ->path(
+                    sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
+                )
+                ->col()
+                ->forSecondary(),
         ];
     }
     
