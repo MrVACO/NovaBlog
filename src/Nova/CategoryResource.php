@@ -55,13 +55,17 @@ class CategoryResource extends Resource
             Text::make(__('Name'), 'name')
                 ->creationRules(['required', 'unique:mrvaco_blog_categories', 'min:3', 'max:255'])
                 ->updateRules(['required', 'min:3', 'max:255'])
-                ->sortable(),
+                ->sortable()
+                ->col()
+                ->width(6),
             
             Slug::make(__('Slug'), 'slug')
                 ->from('name')
                 ->creationRules(['required', 'unique:mrvaco_blog_categories', 'min:3', 'max:255'])
                 ->updateRules(['required', 'min:3', 'max:255'])
-                ->sortable(),
+                ->sortable()
+                ->col()
+                ->width(6),
             
             Text::make(__('Keywords'), 'keywords')
                 ->hideFromIndex()
@@ -75,13 +79,17 @@ class CategoryResource extends Resource
                 ->rules('required')
                 ->options(StatusClass::LIST('full'))
                 ->default(StatusClass::ACTIVE()->id)
-                ->sortable(),
+                ->sortable()
+                ->col()
+                ->forSecondary(),
             
             Image::make(__('Image'), 'image')
                 ->disk('public')
                 ->path('/blog/categories')
                 ->indexWidth(60)
-                ->detailWidth(200),
+                ->detailWidth(200)
+                ->col()
+                ->forSecondary(),
             
             Number::make(__('Clicks'), 'statistic->clicks')
                 ->textAlign('center')
