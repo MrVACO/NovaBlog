@@ -165,6 +165,10 @@ class PostResource extends Resource
                 {
                     return Carbon::parse($model->{$attribute})->format('d-m-Y');
                 })
+                ->resolveUsing(function()
+                {
+                    return Carbon::now();
+                })
                 ->col()
                 ->forSecondary(),
             
