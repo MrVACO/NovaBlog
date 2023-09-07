@@ -125,6 +125,7 @@ class PostResource extends Resource
             
             Select::make(__('Category ID'), 'category_id')
                 ->options(Category::activeList()->pluck('name', 'id'))
+                ->default(1)
                 ->rules(['required'])
                 ->hideFromIndex()
                 ->hideFromDetail()
@@ -157,6 +158,8 @@ class PostResource extends Resource
                 {
                     if ($request->{$attribute} == null)
                         $model->{$attribute} = Carbon::now();
+                    else
+                        $model->{$attribute} = $request->{$attribute};
                 })
                 ->displayUsing(function($request, $model, $attribute)
                 {
