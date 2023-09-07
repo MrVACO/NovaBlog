@@ -91,6 +91,15 @@ class CategoryResource extends Resource
                 ->col()
                 ->forSecondary(),
             
+            Number::make(__('Posts count'), function()
+            {
+                return $this->posts()->count();
+            })
+                ->textAlign('center')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->nullable(),
+            
             Number::make(__('Clicks'), 'statistic->clicks')
                 ->textAlign('center')
                 ->hideWhenCreating()
