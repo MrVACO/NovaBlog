@@ -33,6 +33,10 @@ class ToolServiceProvider extends ServiceProvider
             Category::observe(CategoryObserver::class);
             Post::observe(PostObserver::class);
         });
+        
+        $this->publishes([
+            __DIR__ . '/Database/migrations' => base_path('database/migrations'),
+        ], 'blog__migrations');
     }
     
     public function register(): void
