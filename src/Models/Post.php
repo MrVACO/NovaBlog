@@ -17,6 +17,7 @@ class Post extends Model
         'title',
         'slug',
         'keywords',
+        'tags',
         'introductory',
         'content',
         'status',

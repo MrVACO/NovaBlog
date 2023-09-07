@@ -95,6 +95,10 @@ class PostResource extends Resource
             Text::make(__('Keywords'), 'keywords')
                 ->hideFromIndex(),
             
+            Text::make(__('Tags'), 'tags')
+                ->hideFromIndex()
+                ->sortable(),
+            
             Textarea::make(__('Introductory'), 'introductory')
                 ->rows(2)
                 ->rules(['required'])

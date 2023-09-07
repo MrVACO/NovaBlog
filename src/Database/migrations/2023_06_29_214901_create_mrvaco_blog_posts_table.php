@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->string('keywords')->nullable();
+            $table->string('tags')->nullable();
             $table->text('introductory');
             $table->longText('content');
             $table->integer('status')->default(StatusClass::DRAFT()->id);

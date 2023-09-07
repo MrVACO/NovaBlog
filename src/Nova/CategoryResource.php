@@ -71,6 +71,10 @@ class CategoryResource extends Resource
                 ->hideFromIndex()
                 ->sortable(),
             
+            Text::make(__('Tags'), 'tags')
+                ->hideFromIndex()
+                ->sortable(),
+            
             Textarea::make(__('Description'), 'description')
                 ->rows(2)
                 ->sortable(),
