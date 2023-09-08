@@ -16,6 +16,7 @@ class CategoryController extends Controller
     {
         $data = $category
             ->where('status', StatusClass::ACTIVE()->id)
+            ->where('hidden', false)
             ->get();
         
         abort_if($data->isEmpty(), 404);
