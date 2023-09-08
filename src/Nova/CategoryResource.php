@@ -97,7 +97,7 @@ class CategoryResource extends Resource
                 ->textAlign('center')
                 ->resolveUsing(function()
                 {
-                    $this->hidden ? __('Yes') : __('No');
+                    return $this->hidden ? 1 : 0;
                 })
                 ->displayUsing(function()
                 {
