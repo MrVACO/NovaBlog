@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('creator_id')->unsigned();
             $table->integer('updator_id')->unsigned();
+            $table->boolean('hidden')->default(false);
             
             $table->timestamps();
         });

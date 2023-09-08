@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -84,6 +85,24 @@ class CategoryResource extends Resource
                 ->options(StatusClass::LIST('full'))
                 ->default(StatusClass::ACTIVE()->id)
                 ->sortable()
+                ->col()
+                ->forSecondary(),
+            
+            Select::make(__('Hidden category?'), 'hidden')
+                ->options([
+                    1 => __('Yes'),
+                    0 => __('No')
+                ])
+                ->default(0)
+                ->textAlign('center')
+                ->resolveUsing(function()
+                {
+                    $this->hidden ? __('Yes') : __('No');
+                })
+                ->displayUsing(function()
+                {
+                    return $this->hidden ? __('Yes') : __('No');
+                })
                 ->col()
                 ->forSecondary(),
             

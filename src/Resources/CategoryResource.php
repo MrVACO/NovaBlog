@@ -22,6 +22,7 @@ class CategoryResource extends JsonResource
             'creator'     => $this->creator?->name,
             'updator'     => $this->updator?->name,
             'created_at'  => $this->created_at,
+            'hidden'      => $this->hidden,
             
             'statistics' => StatisticsResource::make($this->statistic),
             
