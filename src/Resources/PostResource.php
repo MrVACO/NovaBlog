@@ -24,6 +24,7 @@ class PostResource extends JsonResource
             'creator'      => $this->creator?->name,
             'updator'      => $this->updator?->name,
             'published_at' => $this->published_at,
+            'recommended'  => $this->recommended,
             'gallery'      => GalleryResource::make($this->gallery) ?? null,
             'category'     => CategoryResource::make($this->whenLoaded('category')),
             'statistics'   => StatisticsResource::make($this->statistic),
