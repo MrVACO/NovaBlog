@@ -176,6 +176,20 @@ class PostResource extends Resource
                 ->col()
                 ->forSecondary(),
             
+            Select::make(__('Recommended post?'), 'recommended')
+                ->options([
+                    1 => __('Yes'),
+                    0 => __('No')
+                ])
+                ->default(0)
+                ->textAlign('center')
+                ->resolveUsing(function()
+                {
+                    return $this->recommended ? __('Yes') : __('No');
+                })
+                ->col()
+                ->forSecondary(),
+            
             Image::make(__('Image'), 'image')
                 ->disk('public')
                 ->path(

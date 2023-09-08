@@ -3,6 +3,7 @@
 namespace MrVaco\NovaBlog\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -26,6 +27,7 @@ class Post extends Model
         'updator_id',
         'published_at',
         'gallery_id',
+        'recommended',
     ];
     
     protected $casts = [
@@ -35,6 +37,7 @@ class Post extends Model
         'updator_id'   => 'integer',
         'published_at' => 'datetime',
         'gallery_id'   => 'integer',
+        'recommended'  => 'boolean',
     ];
     
     public function category(): BelongsTo
@@ -60,5 +63,12 @@ class Post extends Model
     public function gallery(): HasOne
     {
         return $this->hasOne(Gallery::class, 'id', 'gallery_id');
+    }
+    
+    public function scopeRecommended(Builder $query): Builder
+    {
+        return $query
+            ->where('recommended', true)
+            ->orderByDesc('published_at');
     }
 }
