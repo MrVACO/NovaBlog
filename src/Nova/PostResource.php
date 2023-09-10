@@ -185,6 +185,10 @@ class PostResource extends Resource
                 ->textAlign('center')
                 ->resolveUsing(function()
                 {
+                    return $this->recommended ? 1 : 0;
+                })
+                ->displayUsing(function()
+                {
                     return $this->recommended ? __('Yes') : __('No');
                 })
                 ->col()
