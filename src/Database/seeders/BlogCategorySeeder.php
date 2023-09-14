@@ -38,9 +38,7 @@ class BlogCategorySeeder extends Seeder
             Category::query()
                 ->create(array_merge($item, [
                     'status' => StatusClass::ACTIVE()->id,
-                ]))
-                ->statistic()
-                ->create();
+                ]));
         }
     }
 }

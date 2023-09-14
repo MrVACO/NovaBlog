@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
@@ -108,18 +107,6 @@ class PostResource extends Resource
                 ->withFiles('public')
                 ->rules(['required'])
                 ->sortable(),
-            
-            Number::make(__('Clicks'), 'statistic->clicks')
-                ->textAlign('center')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->nullable(),
-            
-            Number::make(__('Views'), 'statistic->views')
-                ->textAlign('center')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->nullable(),
             
             Hidden::make(__('Updator ID'), 'updator_id')
                 ->fillUsing(function($request, $model, $attribute, $requestAttribute)

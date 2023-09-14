@@ -26,18 +26,13 @@ class CategoryController extends Controller
     
     /**
      * @param  Category  $category
-     * @param  string    $slug
      *
      * @return JsonResponse
      */
-    public function show(Category $category, string $slug)
+    public function show(Category $category)
     {
-        $data = $category
-            ->where('slug', $slug)
-            ->where('status', StatusClass::ACTIVE()->id)
-            ->with('posts')
-            ->firstOrFail();
+        abort_unless($category->status === StatusClass::ACTIVE()->id, 404);
         
-        return CategoryResource::make($data);
+        return CategoryResource::make($category);
     }
 }

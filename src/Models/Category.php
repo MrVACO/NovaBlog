@@ -38,11 +38,6 @@ class Category extends Model
         return $query->where('status', StatusClass::ACTIVE()->id);
     }
     
-    public function statistic(): HasOne
-    {
-        return $this->hasOne(CategoryStatistic::class, 'category_id');
-    }
-    
     public function creator(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'creator_id');

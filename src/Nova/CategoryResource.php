@@ -123,18 +123,6 @@ class CategoryResource extends Resource
                 ->hideWhenUpdating()
                 ->nullable(),
             
-            Number::make(__('Clicks'), 'statistic->clicks')
-                ->textAlign('center')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->nullable(),
-            
-            Number::make(__('Views'), 'statistic->views')
-                ->textAlign('center')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->nullable(),
-            
             Hidden::make(__('Updator ID'), 'updator_id')
                 ->fillUsing(function($request, $model, $attribute, $requestAttribute)
                 {

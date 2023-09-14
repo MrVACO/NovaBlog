@@ -27,7 +27,6 @@ class PostResource extends JsonResource
             'recommended'  => $this->recommended,
             'gallery'      => GalleryResource::make($this->gallery) ?? null,
             'category'     => CategoryResource::make($this->whenLoaded('category')),
-            'statistics'   => StatisticsResource::make($this->statistic),
         ];
     }
 }

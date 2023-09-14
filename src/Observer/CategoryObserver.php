@@ -8,10 +8,7 @@ use MrVaco\NovaBlog\Models\Category;
 
 class CategoryObserver
 {
-    public function created(Category $category): void
-    {
-        $category->statistic()->create();
-    }
+    public function created(Category $category): void {}
     
     public function updated(Category $category): void {}
     

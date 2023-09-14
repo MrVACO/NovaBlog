@@ -8,10 +8,7 @@ use MrVaco\NovaBlog\Models\Post;
 
 class PostObserver
 {
-    public function created(Post $post): void
-    {
-        $post->statistic()->create();
-    }
+    public function created(Post $post): void {}
     
     public function updated(Post $post): void {}
     

@@ -11,7 +11,7 @@ app('router')
     ->group(function()
     {
         app('router')->get('list', 'list');
-        app('router')->get('{slug}', 'show');
+        app('router')->get('{category:slug}', 'show');
     });
 
 app('router')

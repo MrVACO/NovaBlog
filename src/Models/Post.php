@@ -45,11 +45,6 @@ class Post extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
     
-    public function statistic(): HasOne
-    {
-        return $this->hasOne(PostStatistic::class, 'post_id');
-    }
-    
     public function creator(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'creator_id');

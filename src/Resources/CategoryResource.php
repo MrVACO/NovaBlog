@@ -24,8 +24,6 @@ class CategoryResource extends JsonResource
             'created_at'  => $this->created_at,
             'hidden'      => $this->hidden,
             
-            'statistics' => StatisticsResource::make($this->statistic),
-            
             'posts' => PostResource::collection($this->whenLoaded('posts')) ?? null,
         ];
     }
