@@ -6,6 +6,7 @@ namespace MrVaco\NovaBlog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use MrVaco\NovaBlog\Models\Category;
 use MrVaco\NovaBlog\Resources\CategoryResource;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
@@ -25,13 +26,17 @@ class CategoryController extends Controller
     }
     
     /**
+     * @param  Request   $request
      * @param  Category  $category
      *
      * @return JsonResponse
      */
-    public function show(Category $category)
+    public function show(Request $request, Category $category)
     {
         abort_unless($category->status === StatusClass::ACTIVE()->id, 404);
+        
+        if ($request->has('posts'))
+            $category->loadMissing('posts');
         
         return CategoryResource::make($category);
     }

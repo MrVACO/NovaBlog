@@ -22,9 +22,9 @@ class CategoryResource extends JsonResource
             'creator'     => $this->creator?->name,
             'updator'     => $this->updator?->name,
             'created_at'  => $this->created_at,
-            'hidden'      => $this->hidden,
+            //'hidden'      => $this->hidden,
             
-            'posts' => PostResource::collection($this->whenLoaded('posts')) ?? null,
+            'posts' => PostResource::collection($this->whenLoaded('posts')),
         ];
     }
 }
