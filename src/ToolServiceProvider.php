@@ -2,6 +2,8 @@
 
 namespace MrVaco\NovaBlog;
 
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Lang;
 use Laravel\Nova\Events\ServingNova;
@@ -34,9 +36,7 @@ class ToolServiceProvider extends ServiceProvider
             Post::observe(PostObserver::class);
         });
         
-        $this->publishes([
-            __DIR__ . '/Database/migrations' => base_path('database/migrations'),
-        ], 'blog__migrations');
+        $this->forPublish();
     }
     
     public function register(): void
@@ -58,5 +58,33 @@ class ToolServiceProvider extends ServiceProvider
             ->middleware('api')
             ->prefix('api/blog')
             ->group(__DIR__ . '/../routes/api.php');
+    }
+    
+    protected function forPublish()
+    {
+        if (!$this->app->runningInConsole())
+        {
+            return;
+        }
+        
+        $this->publishes([
+            __DIR__ . '/Database/migrations/create_mrvaco_blog_categories_table.stub' => $this->getMigrationFileName('create_mrvaco_blog_categories_table.php'),
+            __DIR__ . '/Database/migrations/create_mrvaco_blog_posts_table.stub'      => $this->getMigrationFileName('create_mrvaco_blog_posts_table.php'),
+        ], 'blog-migrations');
+    }
+    
+    /**
+     * Returns existing migration file if found, else uses the current timestamp.
+     */
+    protected function getMigrationFileName(string $migrationFileName): string
+    {
+        $timestamp = date('Y_m_d_His');
+        
+        $filesystem = $this->app->make(Filesystem::class);
+        
+        return Collection::make([database_path('migrations/')])
+            ->flatMap(fn($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->push(database_path("/migrations/{$timestamp}_{$migrationFileName}"))
+            ->first();
     }
 }
