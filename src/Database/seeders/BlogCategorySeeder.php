@@ -16,6 +16,7 @@ class BlogCategorySeeder extends Seeder
             'slug'       => 'uncategorized',
             'creator_id' => 1,
             'updator_id' => 1,
+            'hidden'     => true,
         ],
         [
             'name'       => 'News',
