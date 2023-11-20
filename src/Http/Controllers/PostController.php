@@ -13,13 +13,15 @@ class PostController extends Controller
 {
     public function show(Post $post, string $category, string $slug)
     {
+        $active = StatusClass::ACTIVE()->id;
+        
         $data = $post
             ->where('slug', $slug)
-            ->where('status', StatusClass::ACTIVE()->id)
+            ->where('status', $active)
             ->with('category')
             ->firstOrFail();
         
-        abort_if($data->category->slug !== $category, 404);
+        abort_unless($data->category->slug === $category && $data->category->status === $active, 404);
         
         return PostResource::make($data);
     }
