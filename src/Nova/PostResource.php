@@ -186,6 +186,7 @@ class PostResource extends Resource
                 ->path(
                     sprintf('/blog/posts/%s/', Carbon::now()->format("Y-m-d"))
                 )
+                ->help(__('If a gallery is specified, the first image will be displayed automatically'))
                 ->col()
                 ->forSecondary(),
         ];
