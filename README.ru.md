@@ -5,7 +5,7 @@ composer require mr-vaco/nova-blog
 ```
 
 ```
-php artisan vendor:publish --tag=blog__migrations
+php artisan vendor:publish --tag=blog-migrations
 
 php artisan migrate
 
