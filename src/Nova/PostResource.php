@@ -59,12 +59,22 @@ class PostResource extends Resource
         ];
     }
     
+    public function fieldsForDetail(NovaRequest $request): array
+    {
+        return [
+            Panel::make(__(':resource Details: :title', [
+                'resource' => '',
+                'title'    => $this->title
+            ]), $this->fieldsArray($request))
+        ];
+    }
+    
     public function fieldsForUpdate(NovaRequest $request): array
     {
         return [
             Panel::make(__('Update :resource: :title', [
                 'resource' => '',
-                'title'    => $this->title()
+                'title'    => $this->title
             ]), $this->fieldsArray($request))
         ];
     }

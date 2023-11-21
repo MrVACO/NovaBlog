@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
 use MrVaco\NovaBlog\Models\Category;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
@@ -39,13 +40,39 @@ class CategoryResource extends Resource
     
     public function fieldsForCreate(NovaRequest $request): array
     {
-        return array_merge($this->fieldsArray(), [
-            Hidden::make(__('Creator ID'), 'creator_id')
-                ->fillUsing(function($request, $model, $attribute, $requestAttribute)
-                {
-                    $model->{$attribute} = auth()->user()->id;
-                }),
-        ]);
+        return [
+            Panel::make(__('Create :resource', [
+                'resource' => __('category'),
+            ]),
+                array_merge($this->fieldsArray(), [
+                    Hidden::make(__('Creator ID'), 'creator_id')
+                        ->fillUsing(function($request, $model, $attribute, $requestAttribute)
+                        {
+                            $model->{$attribute} = auth()->user()->id;
+                        }),
+                ])
+            )
+        ];
+    }
+    
+    public function fieldsForDetail(NovaRequest $request): array
+    {
+        return [
+            Panel::make(__(':resource Details: :title', [
+                'resource' => '',
+                'title'    => $this->name
+            ]), $this->fieldsArray())
+        ];
+    }
+    
+    public function fieldsForUpdate(NovaRequest $request): array
+    {
+        return [
+            Panel::make(__('Update :resource: :title', [
+                'resource' => '',
+                'title'    => $this->name
+            ]), $this->fieldsArray())
+        ];
     }
     
     protected function fieldsArray(): array
