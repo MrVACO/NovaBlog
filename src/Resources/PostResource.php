@@ -20,7 +20,7 @@ class PostResource extends JsonResource
             'tags'         => $this->tags,
             'introductory' => $this->introductory,
             'content'      => $this->content,
-            'image'        => $this->image,
+            'image'        => $this->setPreviewImage(),
             'creator'      => $this->creator?->name,
             'updator'      => $this->updator?->name,
             'published_at' => $this->published_at,
@@ -28,5 +28,15 @@ class PostResource extends JsonResource
             'gallery'      => GalleryResource::make($this->gallery) ?? null,
             'category'     => CategoryResource::make($this->whenLoaded('category')),
         ];
+    }
+    
+    protected function setPreviewImage(): ?string
+    {
+        if (isset($this->image))
+            return $this->image;
+        elseif (isset($this->gallery))
+            return json_decode($this->gallery->images)[0];
+        
+        return null;
     }
 }
