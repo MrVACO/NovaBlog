@@ -19,5 +19,6 @@ app('router')
     ->prefix('post')
     ->group(function()
     {
+        app('router')->get('recommended', 'recommended');
         app('router')->get('{category}/{slug}', 'show');
     });

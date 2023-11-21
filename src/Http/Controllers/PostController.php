@@ -25,4 +25,14 @@ class PostController extends Controller
         
         return PostResource::make($data);
     }
+    
+    public function recommended(Post $post)
+    {
+        $data = $post::query()
+            ->isActive()
+            ->isRecommended()
+            ->paginate(12);
+        
+        return PostResource::collection($data);
+    }
 }
