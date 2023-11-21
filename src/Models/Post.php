@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use MrVaco\NovaGallery\Models\Gallery;
+use MrVaco\NovaStatusesManager\Classes\StatusClass;
 
 class Post extends Model
 {
@@ -60,10 +61,15 @@ class Post extends Model
         return $this->hasOne(Gallery::class, 'id', 'gallery_id');
     }
     
-    public function scopeRecommended(Builder $query): Builder
+    public function scopeIsRecommended(Builder $query): Builder
     {
         return $query
             ->where('recommended', true)
             ->orderByDesc('published_at');
+    }
+    
+    public function scopeIsActive(Builder $query): Builder
+    {
+        return $query->where('status', StatusClass::ACTIVE()->id);
     }
 }
