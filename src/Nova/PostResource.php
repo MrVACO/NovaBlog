@@ -168,7 +168,7 @@ class PostResource extends Resource
                 })
                 ->resolveUsing(function()
                 {
-                    return Carbon::now();
+                    return $this->published_at ?? Carbon::now();
                 })
                 ->col()
                 ->forSecondary(),
