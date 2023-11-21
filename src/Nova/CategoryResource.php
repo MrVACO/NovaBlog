@@ -150,4 +150,19 @@ class CategoryResource extends Resource
     {
         return __('Update :name', ['name' => __('category')]);
     }
+    
+    public static function redirectAfterCreate(NovaRequest $request, $resource): string
+    {
+        return '/resources/' . static::uriKey();
+    }
+    
+    public static function redirectAfterDelete(NovaRequest $request): string
+    {
+        return '/resources/' . static::uriKey();
+    }
+    
+    public static function redirectAfterUpdate(NovaRequest $request, $resource): string
+    {
+        return '/resources/' . static::uriKey();
+    }
 }
