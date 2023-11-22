@@ -121,6 +121,8 @@ Ready! Go to the admin panel and be satisfied with the result! :)
 
 #### List of ALL posts marked "recommended": ```/api/blog/post/recommended```
 
+#### List of posts FROM A SPECIFIC category marked "recommended": ```/api/blog/post/{category slug}/recommended```
+
 ```json
 {
     "data": [

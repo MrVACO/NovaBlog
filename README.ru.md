@@ -121,6 +121,8 @@ php artisan db:seed --class=\\MrVaco\\NovaBlog\\Database\\Seeders\\BlogCategoryS
 
 #### Список ВСЕХ постов с пометкой "рекомендовано": ```/api/blog/post/recommended```
 
+#### Список постов ИЗ КОНКРЕТНОЙ категории с пометкой "рекомендовано": ```/api/blog/post/{category slug}/recommended```
+
 ```json
 {
     "data": [
