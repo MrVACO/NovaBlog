@@ -20,5 +20,6 @@ app('router')
     ->group(function()
     {
         app('router')->get('recommended', 'recommended');
+        app('router')->get('{category:slug}/recommended', 'recommendedPostsFromCategory');
         app('router')->get('{category}/{slug}', 'show');
     });

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace MrVaco\NovaBlog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use MrVaco\NovaBlog\Models\Category;
 use MrVaco\NovaBlog\Models\Post;
 use MrVaco\NovaBlog\Resources\PostResource;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
@@ -16,8 +17,8 @@ class PostController extends Controller
         $active = StatusClass::ACTIVE()->id;
         
         $data = $post
+            ->isActive()
             ->where('slug', $slug)
-            ->where('status', $active)
             ->with('category')
             ->firstOrFail();
         
@@ -31,6 +32,19 @@ class PostController extends Controller
         $data = $post::query()
             ->isActive()
             ->isRecommended()
+            ->paginate(12);
+        
+        return PostResource::collection($data);
+    }
+    
+    public function recommendedPostsFromCategory(Category $category, Post $post)
+    {
+        abort_unless($category->status === StatusClass::ACTIVE()->id, 404);
+        
+        $data = $post::query()
+            ->isActive()
+            ->isRecommended()
+            ->inCategory($category->id)
             ->paginate(12);
         
         return PostResource::collection($data);
