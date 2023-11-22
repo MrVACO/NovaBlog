@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $data = $category
             ->isActive()
             ->where('hidden', false)
-            ->get();
+            ->paginate(12);
         
         abort_if($data->isEmpty(), 404);
         
