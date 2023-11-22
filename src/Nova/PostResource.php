@@ -125,7 +125,7 @@ class PostResource extends Resource
                 }),
             
             Select::make(__('Category ID'), 'category_id')
-                ->options(Category::activeList()->pluck('name', 'id'))
+                ->options(Category::isActive()->pluck('name', 'id'))
                 ->default(1)
                 ->rules(['required'])
                 ->hideFromIndex()

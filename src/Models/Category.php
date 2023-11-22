@@ -33,11 +33,6 @@ class Category extends Model
         'hidden'     => 'boolean',
     ];
     
-    public function scopeActiveList(Builder $query): Builder
-    {
-        return $query->where('status', StatusClass::ACTIVE()->id);
-    }
-    
     public function creator(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'creator_id');
@@ -53,5 +48,10 @@ class Category extends Model
         return $this
             ->hasMany(Post::class, 'category_id')
             ->orderBy('published_at', 'desc');
+    }
+    
+    public function scopeIsActive(Builder $query): Builder
+    {
+        return $query->where('status', StatusClass::ACTIVE()->id);
     }
 }

@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function list(Category $category)
     {
         $data = $category
-            ->where('status', StatusClass::ACTIVE()->id)
+            ->isActive()
             ->where('hidden', false)
             ->get();
         
