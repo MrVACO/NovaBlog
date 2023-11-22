@@ -72,4 +72,9 @@ class Post extends Model
     {
         return $query->where('status', StatusClass::ACTIVE()->id);
     }
+    
+    public function scopeInCategory(Builder $query, int $id): Builder
+    {
+        return $query->where('category_id', $id);
+    }
 }
