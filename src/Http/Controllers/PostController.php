@@ -23,6 +23,8 @@ class PostController extends Controller
     
     public function posts(Post $post, Category $category)
     {
+        abort_unless($category->status === StatusClass::ACTIVE()->id, 404);
+        
         $data = $post
             ->isActive()
             ->inCategory($category->id)
