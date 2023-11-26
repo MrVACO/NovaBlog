@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
@@ -22,6 +21,7 @@ use MrVaco\NovaBlog\Models\Post;
 use MrVaco\NovaGallery\Models\Gallery;
 use MrVaco\NovaStatusesManager\Classes\StatusClass;
 use MrVaco\NovaStatusesManager\Fields\Status;
+use MrVaco\NovaTrumbowygField\NovaTrumbowygField;
 
 class PostResource extends Resource
 {
@@ -111,12 +111,12 @@ class PostResource extends Resource
             Textarea::make(__('Introductory'), 'introductory')
                 ->rows(2)
                 ->rules(['required'])
-                ->sortable(),
+                ->sortable()
+                ->alwaysShow(),
             
-            Trix::make(__('Content'), 'content')
-                ->withFiles('public')
+            NovaTrumbowygField::make(__('Content'), 'content')
                 ->rules(['required'])
-                ->sortable(),
+                ->col(),
             
             Hidden::make(__('Updator ID'), 'updator_id')
                 ->fillUsing(function($request, $model, $attribute, $requestAttribute)
