@@ -75,3 +75,20 @@ Ready! Go to the admin panel and be satisfied with the result! :)
     "meta": {}
 }
 ```
+
+### Post sorting
+
+For routes `/api/blog/categories/{category slug}/posts` and `/api/blog/categories/{category slug}/recommended`
+you can specify the column by which records will be sorted, as well as the sorting direction.
+
+> Sort by column: `order`
+>
+> Sorting direction: `direction`
+
+For example, sorting by column "updated_at" with direction "asc":
+
+`/api/blog/categories/{category slug}/posts?order=updated_at&direction=asc`
+
+`/api/blog/categories/{category slug}/recommended?order=updated_at&direction=asc`
+
+> By default, sorting is performed by the column "published_at" with the direction "desc"

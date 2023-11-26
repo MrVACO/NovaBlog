@@ -73,3 +73,20 @@ php artisan db:seed --class=\\MrVaco\\NovaBlog\\Database\\Seeders\\BlogCategoryS
     "meta": {}
 }
 ```
+
+### Сортировка постов
+
+Для маршрутов `/api/blog/categories/{category slug}/posts` и `/api/blog/categories/{category slug}/recommended`
+вы можете указать столбец, по которому будет производиться сортировка записей, а также направление сортировки.
+
+> Сортировка по столбцу: `order`
+>
+> Направление сортировки: `direction`
+
+Например, сортировка по столбцу "updated_at" с направлением "asc":
+
+`/api/blog/categories/{category slug}/posts?order=updated_at&direction=asc`
+
+`/api/blog/categories/{category slug}/recommended?order=updated_at&direction=asc`
+
+> По-умолчанию сортировка производится по столбцу "published_at" с направлением "desc"

@@ -63,9 +63,7 @@ class Post extends Model
     
     public function scopeIsRecommended(Builder $query): Builder
     {
-        return $query
-            ->where('recommended', true)
-            ->orderByDesc('published_at');
+        return $query->where('recommended', true);
     }
     
     public function scopeIsActive(Builder $query): Builder
