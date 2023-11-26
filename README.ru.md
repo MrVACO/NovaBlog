@@ -10,6 +10,10 @@ composer require mr-vaco/nova-blog
 php artisan vendor:publish --tag=blog-migrations
 ```
 
+> Если ранее не был установлен компонент "Галерея": [NovaGallery](https://github.com/MrVACO/NovaGallery?tab=readme-ov-file#installation)
+>
+> Если ранее не был установлен компонент "Менеджер статусов": [NovaStatusesManager](https://github.com/MrVACO/NovaStatusesManager?tab=readme-ov-file#installation)
+
 ```
 php artisan migrate
 ```
